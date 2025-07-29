@@ -1,0 +1,24 @@
+backend:
+  name: github
+  repo: r-dvl/blog
+  branch: main
+  auth_scope: repo
+  base_url: https://api.netlify.com
+  site_domain: r-dvl.github.io/blog
+  auth_endpoint: /blog/admin/auth
+
+media_folder: "src/assets/images"
+public_folder: "src/assets/images" 
+
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Publish Date", name: "pubDate", widget: "datetime" }
+      - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
