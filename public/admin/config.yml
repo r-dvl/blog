@@ -1,13 +1,9 @@
 backend:
-  name: github
-  repo: r-dvl/blog
+  name: git-gateway
   branch: main
-  auth_scope: repo
-  base_url: https://api.netlify.com
-  auth_endpoint: /auth
 
 media_folder: "src/assets/images"
-public_folder: "src/assets/images" 
+public_folder: "src/assets/images"
 
 collections:
   - name: "blog"
