@@ -8,5 +8,9 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
 	site: 'https://r-dvl.ghcr.io',
 	base: '/blog',
+	output: 'static',
+	redirects: {
+		'/blog/[...slug]': '/blog/posts/[...slug]',
+	},
 	integrations: [mdx(), sitemap()],
 });
