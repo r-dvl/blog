@@ -6,8 +6,8 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://r-dvl.ghcr.io',
-	base: '/blog',
+	site: 'https://rdvl-blog.netlify.app',
+	base: '/',
 	output: 'static',
 	integrations: [mdx(), sitemap()],
 });
