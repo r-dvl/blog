@@ -3,6 +3,9 @@ backend:
   repo: r-dvl/blog
   branch: main
   auth_scope: repo
+  base_url: https://api.netlify.com
+  site_domain: r-dvl.github.io/blog
+  auth_endpoint: /blog/admin/auth
 
 media_folder: "src/assets/images"
 public_folder: "src/assets/images" 
