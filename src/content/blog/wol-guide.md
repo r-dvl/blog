@@ -2,7 +2,7 @@
 title: 'WOL Configuration'
 description: 'How to configure Wake On Lan'
 pubDate: 'July 29 2025'
-heroImage: '../../assets/blog-placeholder-3.jpg'
+heroImage: '../../assets/blog-placeholder-1.jpg'
 ---
 
 # WOL or Wake on LAN
