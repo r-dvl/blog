@@ -2,7 +2,7 @@
 title: 'Jenkins Agent Creation'
 description: 'How to configure a Jenkins Agent with Docker'
 pubDate: 'July 29 2025'
-heroImage: '/public/images/uploads/blog-placeholder-1.jpg'
+heroImage: '/src/assets/images/blog-placeholder-1.jpg'
 ---
 
 # Create Jenkins Agent

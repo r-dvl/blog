@@ -2,7 +2,7 @@
 title: Building Big Brother CCTV - Part.1
 description: Decentralized K8S CCTV
 pubDate: 2025-07-30T08:46:00.000+02:00
-heroImage: /images/uploads/blog-placeholder-1.jpg
+heroImage: /src/assets/images/blog-placeholder-1.jpg
 ---
 ## Material
 
@@ -18,6 +18,6 @@ heroImage: /images/uploads/blog-placeholder-1.jpg
 
 ffmpeg stream > mediamtx server > API > Database > UI
 
-![placeholder](/images/uploads/blog-placeholder-1.jpg "Image")
+![placeholder](/src/assets/images/blog-placeholder-1.jpg "Image")
 
 A ve si fufa
