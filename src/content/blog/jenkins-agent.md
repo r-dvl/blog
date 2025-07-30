@@ -1,46 +1,44 @@
 ---
 title: 'Jenkins Agent Creation'
 description: 'How to configure a Jenkins Agent with Docker'
-pubDate: 'July 29 2025'
-heroImage: '/blog/images/blog-placeholder-1.jpg'
+pubDate: 'September 12 2023'
+heroImage: '/blog/images/jenkins.svg'
 ---
 
-# Create Jenkins Agent
----
-Guide written at 02:00 AM and a coffee to create new Agents in Jenkins.
+Guide written at 2:00 AM (plus a couple of coffees) to show how to spin up new Docker-based Jenkins Agents with all the tools needed for any tech stack.
 
-> Official Documentation: [Document](https://www.jenkins.io/doc/book/using/using-agents/)
+> Official docs: [Jenkins Docs](https://www.jenkins.io/doc/book/using/using-agents/)
 
 
 ## Generate SSH Key Pair
 ---
-Create SSH Keys in Jenkins Server:
+Generate SSH keys on your Jenkins server:
 
 ```bash
 ssh-keygen -f ~/.ssh/jenkins_agent_key
 ```
 
-This will generate these keys in `/home/$USER/.ssh` with name `jenkins_agent_key` and `jenkins_agent_key.pub`
+This will generate these keys in `/home/$USER/.ssh` named `jenkins_agent_key` and `jenkins_agent_key.pub`
 
 
 ## Create Jenkins Credentials with SSH Key
 ---
 `Manage Jenkins -> Credentials -> Add Credentials`
 
-- __Kind__: SSH Username with private key;
-- __id__: jenkins
-- __description__: The jenkins ssh key
-- __username__: jenkins
-- __Private__ Key: select `Enter directly` and press the Add button to insert the content of your private key file at `~/.ssh/jenkins_agent_key`
-- __Passphrase__: fill your passphrase used to generate the SSH key pair (leave empty if you didn’t use one at the previous step) and then press the `Create` button
+- __Kind__: SSH Username with private key.
+- __id__: jenkins.
+- __description__: The jenkins ssh key.
+- __username__: jenkins.
+- __Private__ Key: Choose `Enter directly` then paste in the contents of `~/.ssh/jenkins_agent_key`.
+- __Passphrase__: Enter the passphrase you used when creating the key (leave blank if you didn’t use one), then click `Create`.
 
 
 ## Create Docker Agent
 ---
 
-> Official docker image repository: [Jenkins SSH Agent](https://github.com/jenkinsci/docker-ssh-agent)
+> Official Docker image repo: [Jenkins SSH Agent](https://github.com/jenkinsci/docker-ssh-agent)
 
-Run the Agent:
+Run the Agent container:
 
 ```bash
 docker run -d --rm --name=agent1 -p 22:22 \
@@ -48,14 +46,14 @@ docker run -d --rm --name=agent1 -p 22:22 \
 jenkins/ssh-agent:alpine-jdk17
 ```
 
-Where `[your-public-key]` is your public key without brackets.
+Replace `[your-public-key]` with the actual content of your .pub key (no brackets).
 
-> [your-public-key] is the value of the `.pub` key, get the value with `cat ~/.ssh/jenkins_agent_key.pub`.
-> If port 22 is being used in Server, use other one `-p 4444:22`.
+> You can get your public key with: `cat ~/.ssh/jenkins_agent_key.pub`.
+> If port 22 is already in use, map to a different one like -p 4444:22.
 
 ### Customizing Agent
 
-This Docker Image can be extended and you can freely add your dependencies, for example my dockerfile using python, ansible, and node.js:
+You can extend the official image to install extra tools. Here's a sample Dockerfile with Python, Ansible, and Node.js:
 
 ```dockerfile
 FROM jenkins/ssh-agent:debian-jdk17 as jenkins-agent
@@ -82,9 +80,9 @@ RUN apt-get install -y ansible python3 python3-pip nodejs npm
 
 ## Use new Agent
 ---
-To use this new Agent in any Job just write the label introduced in the node:
+To use your new agent in a job, just reference the label you set for the node.
 
-Scripted Pipeline example:
+Example of a scripted pipeline:
 
 ```groovy
 package com.rdvl.jenkinsLibrary
@@ -92,8 +90,8 @@ package com.rdvl.jenkinsLibrary
 def call() {
     node ('docker-agent') {
         try {
-            stage('Test') {
-                echo 'TEST'
+            stage('Agent Test') {
+                echo 'Hello World!'
             }
         } catch(Exception err) {
             error(err.getMessage())
