@@ -1,0 +1,86 @@
+---
+const { type = 'note' } = Astro.props;
+
+const styles = {
+  tip: {
+    backgroundColor: '#f0f9f5',
+    borderColor: '#42b883',
+    icon: 'information-circle-outline',
+  },
+  note: {
+    backgroundColor: '#eef6ff',
+    borderColor: '#3b82f6',
+    icon: 'document-text-outline',
+  },
+  danger: {
+    backgroundColor: '#ffeef0',
+    borderColor: '#ef4444',
+    icon: 'alert-circle-outline',
+  },
+  info: {
+    backgroundColor: '#e0f7fa',
+    borderColor: '#00acc1',
+    icon: 'information-outline',
+  },
+  warning: {
+    backgroundColor: '#fff8e1',
+    borderColor: '#ff9800',
+    icon: 'warning-outline',
+  },
+};
+
+const current = styles[type] || styles.note;
+const styleString = `
+  background-color: ${current.backgroundColor};
+  border-left: 4px solid ${current.borderColor};
+`;
+---
+
+<aside class="callout-box" style={styleString}>
+  <div class="callout-icon-and-type">
+    <ion-icon name={current.icon} class="icon" />
+    <span class="type-label">{type}</span>
+  </div>
+  <div class="callout-content">
+    <slot />
+  </div>
+</aside>
+
+<style>
+    .callout-box {
+        color: #1a1a1a;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem 1.25rem;
+        margin: 2rem 0;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .callout-icon-and-type {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        line-height: 1.1;
+        text-transform: capitalize;
+    }
+
+    .icon {
+        font-size: 1.4rem;
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+        vertical-align: middle;
+        position: relative;
+        top: 0;
+    }
+
+    .callout-content {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+</style>

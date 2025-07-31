@@ -1,0 +1,78 @@
+---
+title: 'Building Big Brother CCTV - Part 1'
+description: 'CCTV for Kubernetes'
+pubDate: 'July 30 2025'
+heroImage: '/blog/images/big-brother-cctv.svg'
+---
+
+import Callout from '../../components/Callout.astro';
+
+<Callout type="warning">
+  Work in progress! This is the first part of a series on building a home CCTV system using Kubernetes and microservices. Stay tuned for more updates!
+</Callout>
+
+## Intro and Architecture of My Kubernetes-Powered Home CCTV
+---
+### What’s this about?
+
+Whenever I go on trips, I always worry about what my cats are up to at home. So, I wanted a DIY CCTV setup that’s flexible, scalable, and something I can fully control. That’s how Big Brother CCTV was born — a home surveillance system built with microservices, containers, and Kubernetes that lets me keep an eye on my furry friends from anywhere.
+
+### What gear am I using?
+
+Here’s the setup:
+
+- A __ZimaBoard__ running _Proxmox VE_, with a _Debian_ VM inside that hosts _Kubernetes_ via _k3s_ — this is my main cluster node.
+
+- Plus, a __Raspberry Pi 3B+__ also running _k3s_ as a worker node to expand the cluster and keep things connected.
+
+Everything lives inside a single _Kubernetes_ _namespace_, and the services talk to each other over the cluster’s internal network — so it’s fast and secure.
+
+![Nodes](/blog/images/nodes.png)
+> Yes... __k3s-master__ is my home lab, maybe I should add another node before the memory runs out!!
+
+### Why Kubernetes and microservices?
+
+I picked Kubernetes because:
+
+- It scales easily — add more nodes or cameras without hassle.
+
+- It’s resilient — services restart if something crashes.
+
+- Helm makes deploying and updating a breeze.
+
+- Each piece runs isolated in containers, so it’s easier to maintain and upgrade.
+
+![Microservices](/blog/images/deployments.png)
+> The whole system is split into _microservices_, each doing its own job but working together to keep things smooth.
+
+### How the system works
+![Design](/blog/images/big-brother-cctv-design.svg)
+
+#### Main parts:
+
+- __Camera__: A _Docker_ _container_ running an ffmpeg script that grabs the camera feed and streams it.
+
+- __Media Server__: Handles _RTSP/RTMP_ streams, taking in video from ffmpeg and serving it out to clients.
+
+- __API__: Cameras register themselves on startup by posting their config to a _PostgreSQL_ DB, and of course for user auth. I am going to use _Java Springboot_ for this one.
+
+- __Frontend__: A simple interface to watch streams, manage cameras, and check system status. I thought about _React_, but I'm going to use _Angular_. I think it integrates best with _Java Springboot_ (in my humble opinion).
+
+#### Basic flow
+
+- __Cameras__ (or ffmpeg containers pretending to be cameras) start up and register via the API.
+
+- Ffmpeg grabs the video feed and sends it to __Media Server__.
+
+- __Media Server__ distributes streams to connected clients, like the __Frontend__.
+
+- I can check on my cats live and manage cameras from the web and change __Cameras__ configuration.
+
+- __Cameras__ will be polling to fetch most recent configuration (or maybe a hook on Cameras listening for new configuration when this changes).
+
+### Why build this?
+
+> This is why!
+![Puma](/blog/images/puma-placeholder.jpg)
+
+Honestly, it started as a fun personal project to learn _Kubernetes_ and _microservices_ — but with a practical twist: keeping an eye on my cats while I’m away. The setup is pretty flexible and could be adapted for any home or small business CCTV needs.
