@@ -17,11 +17,14 @@ Whenever I go on trips, I always worry about what my cats are up to at home. So,
 
 Here’s the setup:
 
-- A ZimaBoard running Proxmox VE, with a Debian VM inside that hosts Kubernetes via k3s — this is my main cluster node.
+- A __ZimaBoard__ running _Proxmox VE_, with a _Debian_ VM inside that hosts _Kubernetes_ via _k3s_ — this is my main cluster node.
 
-- Plus, a Raspberry Pi also running k3s as a worker node to expand the cluster and keep things connected.
+- Plus, a __Raspberry Pi 3B+__ also running _k3s_ as a worker node to expand the cluster and keep things connected.
 
-Everything lives inside a single Kubernetes namespace, and the services talk to each other over the cluster’s internal network — so it’s fast and secure.
+Everything lives inside a single _Kubernetes_ _namespace_, and the services talk to each other over the cluster’s internal network — so it’s fast and secure.
+
+![Nodes](/blog/images/nodes.png)
+> Yes... __k3s-master__ is my home lab, maybe I should add another node before the memory runs out!!
 
 ### Why Kubernetes and microservices?
 
@@ -35,32 +38,37 @@ I picked Kubernetes because:
 
 - Each piece runs isolated in containers, so it’s easier to maintain and upgrade.
 
-The whole system is split into microservices, each doing its own job but working together to keep things smooth.
+![Microservices](/blog/images/deployments.png)
+> The whole system is split into _microservices_, each doing its own job but working together to keep things smooth.
 
 ### How the system works
-> Diagram Puma-Placeholder!
-![Diagram Placeholder](/blog/images/puma-placeholder.jpg)
+![Design](/blog/images/big-brother-cctv-design.svg)
 
 #### Main parts:
 
-- Streaming service: a Docker container running an ffmpeg script that grabs the camera feed and streams it.
+- __Camera__: A _Docker_ _container_ running an ffmpeg script that grabs the camera feed and streams it.
 
-- MediaMTX server: handles RTSP/RTMP streams, taking in video from ffmpeg and serving it out to clients.
+- __Media Server__: Handles _RTSP/RTMP_ streams, taking in video from ffmpeg and serving it out to clients.
 
-- Camera management API: cameras register themselves on startup by posting their config to a PostgreSQL DB.
+- __API__: Cameras register themselves on startup by posting their config to a _PostgreSQL_ DB, and of course for user auth. I am going to use _Java Springboot_ for this one.
 
-- Web frontend: a simple interface to watch streams, manage cameras, and check system status.
+- __Frontend__: A simple interface to watch streams, manage cameras, and check system status. I thought about _React_, but I'm going to use _Angular_. I think it integrates best with _Java Springboot_ (in my humble opinion).
 
 #### Basic flow
 
-- Cameras (or ffmpeg containers pretending to be cameras) start up and register via the API.
+- __Cameras__ (or ffmpeg containers pretending to be cameras) start up and register via the API.
 
-- ffmpeg grabs the video feed and sends it to MediaMTX.
+- Ffmpeg grabs the video feed and sends it to __Media Server__.
 
-- MediaMTX distributes streams to connected clients, like the frontend.
+- __Media Server__ distributes streams to connected clients, like the __Frontend__.
 
-- I can check on my cats live and manage cameras from the web.
+- I can check on my cats live and manage cameras from the web and change __Cameras__ configuration.
+
+- __Cameras__ will be polling to fetch most recent configuration (or maybe a hook on Cameras listening for new configuration when this changes).
 
 ### Why build this?
 
-Honestly, it started as a fun personal project to learn Kubernetes and microservices — but with a practical twist: keeping an eye on my cats while I’m away. The setup is pretty flexible and could be adapted for any home or small business CCTV needs.
+> This is why!
+![Puma](/blog/images/puma-placeholder.jpg)
+
+Honestly, it started as a fun personal project to learn _Kubernetes_ and _microservices_ — but with a practical twist: keeping an eye on my cats while I’m away. The setup is pretty flexible and could be adapted for any home or small business CCTV needs.
