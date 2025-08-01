@@ -13,13 +13,15 @@ import Callout from '../../components/Callout.astro';
 
 ## Intro and Design
 ---
-### What’s this about?
+### What's this about?
 
-Whenever I go on trips, I always worry about what my cats are up to at home. So, I wanted a DIY CCTV setup that’s flexible, scalable, and something I can fully control. That’s how __Big Brother CCTV__ was born — a home surveillance system built with __microservices__, __containers__, and __Kubernetes__ that lets me keep an eye on my furry friends from anywhere.
+Whenever I go on trips, I always worry about what my cats are up to at home. So, I wanted a DIY CCTV setup that's flexible, scalable, and something I can fully control. That's how __Big Brother CCTV__ was born — a home surveillance system built with __microservices__, __containers__, and __Kubernetes__ that lets me keep an eye on my furry friends from anywhere.
+
+> Of course, the name is inspired by Orwell's 1984
 
 ### What gear am I using?
 
-Here’s the setup:
+Here's the setup:
 
 - A __ZimaBoard__ running _Proxmox VE_, with a _Debian_ VM inside that hosts _Kubernetes_ via _k3s_ — this is my main cluster node.
 
@@ -29,7 +31,7 @@ Here’s the setup:
 
 ![rpi](/blog/images/rpi.jpeg)
 
-Everything lives inside a single _Kubernetes_ _namespace_, and the services talk to each other over the cluster’s internal network — so it’s fast and secure.
+Everything lives inside a single _Kubernetes_ _namespace_, and the services talk to each other over the cluster's internal network — so it's fast and secure.
 
 ![Nodes](/blog/images/nodes.png)
 > Yes... __k3s-master__ is my home lab, maybe I should add another node before the memory runs out!!
@@ -40,11 +42,11 @@ I picked Kubernetes because:
 
 - It scales easily — add more nodes or cameras without hassle.
 
-- It’s resilient — services restart if something crashes.
+- It's resilient — services restart if something crashes.
 
 - Helm makes deploying and updating a breeze.
 
-- Each piece runs isolated in containers, so it’s easier to maintain and upgrade.
+- Each piece runs isolated in containers, so it's easier to maintain and upgrade.
 
 ![Microservices](/blog/images/deployments.png)
 > The whole system is split into _microservices_, each doing its own job but working together to keep things smooth.
@@ -79,4 +81,4 @@ I picked Kubernetes because:
 > This is why!
 ![Puma](/blog/images/puma-placeholder.jpg)
 
-Honestly, it started as a fun personal project to learn _Kubernetes_ and _microservices_ — but with a practical twist: keeping an eye on my cats while I’m away. The setup is pretty flexible and could be adapted for any home or small business CCTV needs.
+Honestly, it started as a fun personal project to learn _Kubernetes_ and _microservices_ — but with a practical twist: keeping an eye on my cats while I'm away. The setup is pretty flexible and could be adapted for any home or small business CCTV needs.
