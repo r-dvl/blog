@@ -11,11 +11,11 @@ import Callout from '../../components/Callout.astro';
   Work in progress! This is the first part of a series on building a home CCTV system using Kubernetes and microservices. Stay tuned for more updates!
 </Callout>
 
-## Intro and Architecture of My Kubernetes-Powered Home CCTV
+## Intro and Design
 ---
 ### What’s this about?
 
-Whenever I go on trips, I always worry about what my cats are up to at home. So, I wanted a DIY CCTV setup that’s flexible, scalable, and something I can fully control. That’s how Big Brother CCTV was born — a home surveillance system built with microservices, containers, and Kubernetes that lets me keep an eye on my furry friends from anywhere.
+Whenever I go on trips, I always worry about what my cats are up to at home. So, I wanted a DIY CCTV setup that’s flexible, scalable, and something I can fully control. That’s how __Big Brother CCTV__ was born — a home surveillance system built with __microservices__, __containers__, and __Kubernetes__ that lets me keep an eye on my furry friends from anywhere.
 
 ### What gear am I using?
 
@@ -23,7 +23,11 @@ Here’s the setup:
 
 - A __ZimaBoard__ running _Proxmox VE_, with a _Debian_ VM inside that hosts _Kubernetes_ via _k3s_ — this is my main cluster node.
 
-- Plus, a __Raspberry Pi 3B+__ also running _k3s_ as a worker node to expand the cluster and keep things connected.
+![zima](/blog/images/zima.jpeg)
+
+- Plus, a __Raspberry Pi 3B+__ equipped with a __PiCamera__ also running _k3s_ as a worker node to expand the cluster and keep things connected.
+
+![rpi](/blog/images/rpi.jpeg)
 
 Everything lives inside a single _Kubernetes_ _namespace_, and the services talk to each other over the cluster’s internal network — so it’s fast and secure.
 

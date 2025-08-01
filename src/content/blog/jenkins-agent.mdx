@@ -5,10 +5,13 @@ pubDate: 'September 12 2023'
 heroImage: '/blog/images/jenkins.svg'
 ---
 
+import Callout from '../../components/Callout.astro';
+
 Guide written at 2:00 AM (plus a couple of coffees) to show how to spin up new Docker-based Jenkins Agents with all the tools needed for any tech stack.
 
-> Official docs: [Jenkins Docs](https://www.jenkins.io/doc/book/using/using-agents/)
-
+<Callout type="info">
+    Official docs: [Jenkins Docs](https://www.jenkins.io/doc/book/using/using-agents/)
+</Callout>
 
 ## Generate SSH Key Pair
 ---
@@ -36,7 +39,9 @@ This will generate these keys in `/home/$USER/.ssh` named `jenkins_agent_key` an
 ## Create Docker Agent
 ---
 
-> Official Docker image repo: [Jenkins SSH Agent](https://github.com/jenkinsci/docker-ssh-agent)
+<Callout type="info">
+    Official Docker image repo: [Jenkins SSH Agent](https://github.com/jenkinsci/docker-ssh-agent)
+</Callout>
 
 Run the Agent container:
 
@@ -48,8 +53,10 @@ jenkins/ssh-agent:alpine-jdk17
 
 Replace `[your-public-key]` with the actual content of your .pub key (no brackets).
 
-> You can get your public key with: `cat ~/.ssh/jenkins_agent_key.pub`.
-> If port 22 is already in use, map to a different one like -p 4444:22.
+<Callout type="tip">
+    You can get your public key with: `cat ~/.ssh/jenkins_agent_key.pub`.
+    If port 22 is already in use, map to a different one like -p 4444:22.
+</Callout>
 
 ### Customizing Agent
 
@@ -75,7 +82,9 @@ RUN apt-get install -y ansible python3 python3-pip nodejs npm
     - Credentials; (e.g.: jenkins )
     - Host Key verification Strategy; (e.g.: Manually trusted key verification …​ )
 
-> If `Manually trusted key verification` is selected, you will have to trust that new host.
+<Callout type="tip">
+    If `Manually trusted key verification` is selected, you will have to trust that new host.
+</Callout>
 
 
 ## Use new Agent
