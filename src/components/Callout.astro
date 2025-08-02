@@ -1,4 +1,10 @@
 ---
+type CalloutType = 'tip' | 'note' | 'danger' | 'info' | 'warning';
+
+interface Props {
+  type?: CalloutType;
+}
+
 const { type = 'note' } = Astro.props;
 
 const styles = {
@@ -27,9 +33,10 @@ const styles = {
     borderColor: '#ff9800',
     icon: 'warning-outline',
   },
-};
+} as const;
 
-const current = styles[type] || styles.note;
+// Ahora TypeScript sabe que type es una clave válida
+const current = styles[type];
 const styleString = `
   background-color: ${current.backgroundColor};
   border-left: 4px solid ${current.borderColor};
@@ -58,7 +65,6 @@ const styleString = `
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
         transition: background-color 0.3s ease, border-color 0.3s ease;
     }
-
     .callout-icon-and-type {
         display: inline-flex;
         align-items: center;
@@ -68,7 +74,6 @@ const styleString = `
         line-height: 1.1;
         text-transform: capitalize;
     }
-
     .icon {
         font-size: 1.4rem;
         display: inline-flex;
@@ -78,7 +83,6 @@ const styleString = `
         position: relative;
         top: 0;
     }
-
     .callout-content {
         font-size: 1rem;
         line-height: 1.6;
